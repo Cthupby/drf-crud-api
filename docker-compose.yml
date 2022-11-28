@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:15.1
+    container_name: drf-crud-db
+    volumes:
+      - ./datapg:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  api:
+    image: drf_crud_image
+    container_name: drf-crud-api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
